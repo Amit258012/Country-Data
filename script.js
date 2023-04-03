@@ -128,6 +128,7 @@ const getCountryData = function (country) {
         .then((data) => renderContry(data[0], "neighbour"));
 };
 getCountryData("bharat");
+console.log("testing sync ");
 
 // todo: practice
 // const getCountryData = function (country) {

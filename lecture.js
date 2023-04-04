@@ -116,3 +116,37 @@ getCountryData1("bharat");
 
 // todo: handling error (rejected Promises)
 // fetch shows error only due to internet connection
+
+// todo: challenge #1
+const whereAmI = function (lat, lag) {
+    fetch(`https://geocode.xyz/${lat},${lag}?geoit=json`)
+        .then((response) => {
+            if (!response.ok)
+                throw new Error(`Problem with geocoding ${response.status}`);
+            return response.json();
+        })
+        .then((data) => {
+            console.log(data);
+            console.log(`"You are in ${data.city} , ${data.country}"`);
+
+            return fetch(`https://restcountries.com/v3.1/name/${data.country}`);
+        })
+        .then((response) => {
+            if (!response.ok)
+                throw new Error(`Country not found (${response.status})`);
+            return response.json();
+        })
+        .then((data) => renderContry(data[0]))
+        .catch((error) => {
+            console.error(error);
+            renderError(`Something went wrong: ${error.message}`);
+        })
+        .finally(() => {
+            countriesContainer.style.opacity = 1;
+        });
+};
+// btn.addEventListener("click", function () {
+whereAmI(19.037, 72.873);
+whereAmI(52.507, 13.38);
+// whereAmI(19.037, 72.873);
+// });

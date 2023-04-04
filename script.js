@@ -22,6 +22,12 @@ const renderContry = function (data, className = "") {
     // countriesContainer.style.opacity = 1;
 };
 
+const getCountry = function (country) {
+    fetch(`https://restcountries.com/v3.1/name/${country}`)
+        .then((response) => response.json())
+        .then((data) => renderContry(data));
+};
+
 const renderError = function (msg) {
     countriesContainer.insertAdjacentText("beforeend", msg);
     // countriesContainer.style.opacity = 1;

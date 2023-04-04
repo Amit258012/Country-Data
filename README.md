@@ -1,3 +1,3 @@
 # Country-Data
 
-##udemy course project by Jonas
+udemy course project by Jonas

@@ -1,4 +1,4 @@
-"use strict";
+/* "use strict";
 
 const btn = document.querySelector(".btn-country");
 const countriesContainer = document.querySelector(".countries");
@@ -35,7 +35,6 @@ const renderError = function (msg) {
 
 const getJSON = function (url, errMsg = "Something went wrong!") {
     return fetch(url).then((response) => {
-        console.log("1");
         if (!response.ok) throw new Error(`${errMsg}`);
         return response.json();
     });
@@ -48,7 +47,7 @@ const getCountryData1 = function (country) {
     )
         .then((data) => {
             // it will call itself when Promisesis fullfilled
-            console.log(data);
+            // console.log(data);
             renderContry(data[0]);
             const neighbour = data[0].borders[0];
             if (!neighbour) throw new Error("No neighbour found!");
@@ -74,3 +73,48 @@ const getCountryData1 = function (country) {
 btn.addEventListener("click", function () {
     getCountryData1("bharat");
 });
+
+// todo: Promisifying the geoLocation api
+
+const getPosition = function () {
+    return new Promise((resolve, reject) => {
+        //  navigator.geolocation.getCurrentPosition(position=>resolve(position), err=>reject(err));
+        // equivalent one
+        navigator.geolocation.getCurrentPosition(resolve, reject);
+    });
+};
+// getPosition().then((pos) => console.log(pos));
+
+const whereAmI = function () {
+    getPosition()
+        .then((pos) => {
+            const { latitude: lat, longitude: log } = pos.coords;
+            return fetch(`https://geocode.xyz/${lat},${log}?geoit=json`);
+        })
+        .then((response) => {
+            if (!response.ok)
+                throw new Error(`Problem with geocoding ${response.status}`);
+            return response.json();
+        })
+        .then((data) => {
+            console.log(data);
+            console.log(`"You are in ${data.city} , ${data.country}"`);
+
+            return fetch(`https://restcountries.com/v3.1/name/${data.country}`);
+        })
+        .then((response) => {
+            if (!response.ok)
+                throw new Error(`Country not found (${response.status})`);
+            return response.json();
+        })
+        .then((data) => renderContry(data[0]))
+        .catch((error) => {
+            console.error(error);
+            renderError(`Something went wrong: ${error.message}`);
+        })
+        .finally(() => {
+            countriesContainer.style.opacity = 1;
+        });
+};
+btn.addEventListener("click", whereAmI);
+ */

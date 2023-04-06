@@ -66,7 +66,7 @@ const whereAmI = async function () {
         renderError(`Something went wrong! ${err.message}`);
     }
 };
-
+btn.addEventListener("click", whereAmI);
 // todo: Returning values from Async functions
 
 // const city = whereAmI();
@@ -118,28 +118,28 @@ const whereAmI = async function () {
 // get3Countries("bharat", "usa", "uk");
 
 //!Promises.race
-(async function () {
-    // get only 1 result
-    //  rejected value will always will the race result
-    const res = await Promise.race([
-        getJSON(`https://restcountries.com/v3.1/name/italy`),
-        getJSON(`https://restcountries.com/v3.1/name/egypt`),
-        getJSON(`https://restcountries.com/v3.1/name/mexico`),
-    ]);
-    console.log(res[0].capital);
-})();
+// (async function () {
+//     // get only 1 result
+//     //  rejected value will always will the race result
+//     const res = await Promise.race([
+//         getJSON(`https://restcountries.com/v3.1/name/italy`),
+//         getJSON(`https://restcountries.com/v3.1/name/egypt`),
+//         getJSON(`https://restcountries.com/v3.1/name/mexico`),
+//     ]);
+//     console.log(res[0].capital);
+// })();
 
-const timeout = function (sec) {
-    return new Promise((_, reject) => {
-        setTimeout(function () {
-            reject(new Error("Request took too long"));
-        }, sec * 1000);
-    });
-};
+// const timeout = function (sec) {
+//     return new Promise((_, reject) => {
+//         setTimeout(function () {
+//             reject(new Error("Request took too long"));
+//         }, sec * 1000);
+//     });
+// };
 
-Promise.race([
-    getJSON(`https://restcountries.com/v3.1/name/bharat`),
-    timeout(1),
-])
-    .then((data) => console.log(data[0].capital))
-    .catch((err) => console.log(err));
+// Promise.race([
+//     getJSON(`https://restcountries.com/v3.1/name/bharat`),
+//     timeout(1),
+// ])
+//     .then((data) => console.log(data[0].capital))
+//     .catch((err) => console.log(err));

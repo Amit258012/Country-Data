@@ -60,86 +60,17 @@ const whereAmI = async function () {
         if (!res.ok) throw new Error("Problem getting country data");
         const data = await res.json();
         renderContry(data[1]);
-
-        return `You are in ${dataGeo.city}, ${dataGeo.country}`;
+        const neighbour = data[1].borders[0];
+        console.log(neighbour);
+        if (!neighbour) throw new Error("No neighbour found!");
+        const country2 = await fetch(
+            `https://restcountries.com/v3.1/alpha/${neighbour}`
+        );
+        if (!res.ok) throw new Error("Problem getting country data");
+        const data2 = await country2.json();
+        renderContry(data2[0]);
     } catch (err) {
         renderError(`Something went wrong! ${err.message}`);
     }
 };
 btn.addEventListener("click", whereAmI);
-// todo: Returning values from Async functions
-
-// const city = whereAmI();
-// whereAmI()
-//     .then((city) => console.log(`2: ${city}`))
-//     .catch((err) => console.log(`2: ${err}`))
-//     .finally(() => console.log("3: Finished geting location"));
-
-// console.log("1: Getting location");
-// // Immidetly invocked function
-// (async function () {
-//     try {
-//         const city = await whereAmI();
-//         console.log(`2: ${city}`);
-//     } catch (err) {
-//         console.log(`2: ${err}`);
-//     }
-//     console.log("3: Finished geting location");
-// })();
-
-// todo: running the promises prallel
-
-// const get3Countries = async function (c1, c2, c3) {
-//     try {
-//         // const [dataC1] = await getJSON(
-//         //     `https://restcountries.com/v3.1/name/${c1}`
-//         // );
-//         // const [dataC2] = await getJSON(
-//         //     `https://restcountries.com/v3.1/name/${c2}`
-//         // );
-//         // const [dataC3] = await getJSON(
-//         //     `https://restcountries.com/v3.1/name/${c3}`
-//         // );
-
-//         //!Promise.all
-//         // short circuits when 1 promise rejected
-//         const data = await Promise.all([
-//             getJSON(`https://restcountries.com/v3.1/name/${c1}`),
-//             getJSON(`https://restcountries.com/v3.1/name/${c2}`),
-//             getJSON(`https://restcountries.com/v3.1/name/${c3}`),
-//         ]);
-//         const dataArr = data.map((data) => data[0].capital);
-//         console.log(dataArr.flat());
-//     } catch (error) {
-//         console.log(error.message);
-//     }
-// };
-
-// get3Countries("bharat", "usa", "uk");
-
-//!Promises.race
-// (async function () {
-//     // get only 1 result
-//     //  rejected value will always will the race result
-//     const res = await Promise.race([
-//         getJSON(`https://restcountries.com/v3.1/name/italy`),
-//         getJSON(`https://restcountries.com/v3.1/name/egypt`),
-//         getJSON(`https://restcountries.com/v3.1/name/mexico`),
-//     ]);
-//     console.log(res[0].capital);
-// })();
-
-// const timeout = function (sec) {
-//     return new Promise((_, reject) => {
-//         setTimeout(function () {
-//             reject(new Error("Request took too long"));
-//         }, sec * 1000);
-//     });
-// };
-
-// Promise.race([
-//     getJSON(`https://restcountries.com/v3.1/name/bharat`),
-//     timeout(1),
-// ])
-//     .then((data) => console.log(data[0].capital))
-//     .catch((err) => console.log(err));
